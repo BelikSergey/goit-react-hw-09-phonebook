@@ -1,0 +1,16 @@
+.appear {
+  /* opacity: 0; */
+  transform: translateX(-100%);
+}
+.appearActive {
+  /* opacity: 1; */
+  transform: translateX(0);
+  transition: all 500ms;
+}
+.MainPage {
+  margin-top: 10px;
+  text-align: center;
+}
+/* .Title {
+  text-align: center;
+} */

@@ -1,0 +1,11 @@
+.NavLink {
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+}
+/* .Registration {
+  display: flex;
+} */
+.active {
+  color: orange;
+}
