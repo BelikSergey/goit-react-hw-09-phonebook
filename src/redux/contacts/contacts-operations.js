@@ -22,10 +22,6 @@ const getItemsList = () => async dispatch =>{
             position: "top-right",
         })
     }
-    // axios
-    // .get('/contacts')
-    // .then(({data})=>dispatch(actions.itemGetSuccess(data)))
-    // .catch(error=>dispatch(actions.itemGetError(error.maessage)));
 }
 
 const addItem = ({name, number}) => async dispatch=> {

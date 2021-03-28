@@ -1,20 +1,10 @@
-import { Suspense, lazy, Component } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { Switch, Redirect } from 'react-router-dom';
-import {connect}  from 'react-redux';
+import {useDispatch}  from 'react-redux';
 import { ToastContainer } from 'react-toastify';
-// import { CSSTransition } from 'react-transition-group';
 import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-// import styles from './App.module.css';
-// import ContactsList from "./components/ContactsList";
-// import ContactForm from "./components/ContactForm";
-// import Filter from "./components/Filter";
-// import LogoPhoneBook from './components/LogoPhoneBook';
-// import Container from './UI/Container/Container';
-// import actionsSelectors from './redux/contacts/contacts-selectors'
 import registerOps from './redux/auth/register-operations'
-import contactsOps from './redux/contacts/contacts-operations'
-// import LinkElement from './com;
 import routes from './routes';
 import MainPage from './views/MainPage'
 import PrivetRoute from './components/PrivetRout'
@@ -34,16 +24,15 @@ import('./views/RegistrationPage' /* webpackChunkName: "registration-page" */),
 
 
 
-class App extends Component {
+export default function App () {
 
-  componentDidMount(){
-    this.props.getCurrentUser();
-    this.props.getItemsList()
-  }  
+  const dispatch = useDispatch();
+  
+  useEffect(()=>{
+    dispatch(registerOps.getCurrentUser());
+  },[dispatch])
 
-
-  render() {
-    return (
+  return (
       <>
       <Suspense
           fallback={
@@ -58,12 +47,12 @@ class App extends Component {
           <Switch>
               <PublicRoute path={routes.main} exact component={MainPage} restricted redirectTo="/contacts"/>
               <PublicRoute path={routes.login} component={LoginPage} restricted redirectTo="/contacts"/>
-              <PrivetRoute path={routes.phoneBook} component={PhoneBookPage} redirectTo="/login"/>
+              <PrivetRoute path={routes.phoneBook} component={PhoneBookPage} redirectTo="/"/>
               <PublicRoute
                   path={routes.registration}
                   component={RegistrationPage}
                   restricted
-                  redirectTo="/contacts"
+                  redirectTo="/contacts"  
               />
               <Redirect to="/"/>
           </Switch>
@@ -72,7 +61,7 @@ class App extends Component {
     </>
     )
   }
-}
+
 
 
 
@@ -130,12 +119,12 @@ class App extends Component {
 // const mapStateToProps = (state) => ({
 //   contacts: actionsSelectors.AllContacts(state),
 //   // loading: actionsSelectors.isLoading(state)
+// // })
+// const mapDispatchToProps = dispatch => ({
+//   getCurrentUser: ()=> dispatch(registerOps.getCurrentUser()),
+//   getItemsList:() => dispatch(contactsOps.getItemsList()),
+
 // })
-const mapDispatchToProps = dispatch => ({
-  getCurrentUser: ()=> dispatch(registerOps.getCurrentUser()),
-  getItemsList:() => dispatch(contactsOps.getItemsList()),
 
-})
-
-export default connect(null, mapDispatchToProps)(App);
-// export default connect()(App)
+// export default connect(null, mapDispatchToProps)(App);
+// // export default connect()(App)

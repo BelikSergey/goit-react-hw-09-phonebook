@@ -6,14 +6,6 @@ const AllContacts = state => state.contacts.items;
 
 const isLoading = state => state.contacts.loading;
 
-// const visibleFilteredContacts = state =>{
-//     const items = AllContacts(state);
-//     const filter=filterContacts(state);
-//     return items.filter((item) =>
-//     item.name.toLowerCase()
-//     .includes(filter.toLowerCase())
-//     );
-// }
  const visibleFilteredContacts =createSelector([AllContacts,filterContacts],(items,filter)=>{
     return items.filter((item) =>
     item.name.toLowerCase()

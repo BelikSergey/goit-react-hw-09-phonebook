@@ -1,11 +1,20 @@
 import styles from '../../App.module.css'
-import {connect}  from 'react-redux';
+import {useCallback} from 'react'
+import {useSelector,useDispatch,}  from 'react-redux';
 import сontactsActions from '../../redux/contacts/contacts-actions'
 import contactsSelectors from '../../redux/contacts/contacts-selectors'
 import TextField from '@material-ui/core/TextField';
 
-const Filter = ({ filter, onChange }) => {
-  // console.log('click');
+const Filter = () => {
+  const filter= useSelector(contactsSelectors.filterContacts)
+  const dispatch =useDispatch()
+
+  const onChange=useCallback((event)=>{
+    const {value} = event.currentTarget;
+    // console.log(value);
+    dispatch(сontactsActions.filterItems(value))
+  },[dispatch])
+
   return (
        <TextField className={styles.FormInput}
        margin="normal"
@@ -14,20 +23,19 @@ const Filter = ({ filter, onChange }) => {
       type="text"
       name="filter"
       value={filter}
-      // placeholder="Search by contacts"
       onChange={onChange}
     />
   );
 };
-const mapStateToProps = (state) => ({
-  filter: contactsSelectors.filterContacts(state),
-})
+// const mapStateToProps = (state) => ({
+//   filter: contactsSelectors.filterContacts(state),
+// })
 
-const mapDispatchToProps = dispatch => ({
-  onChange:(event)=> dispatch(сontactsActions.filterItems(event.target.value))
-})
+// const mapDispatchToProps = dispatch => ({
+//   onChange:(event)=> dispatch(сontactsActions.filterItems(event.target.value))
+// })
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+export default Filter;
 

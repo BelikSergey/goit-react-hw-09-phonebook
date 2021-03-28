@@ -1,16 +1,14 @@
-import React from 'react'
+import {useCallback} from 'react'
 import styles from './AppBar.module.css'
 import LinkElement from '../LinkElement'
 import routes from '../../routes'
 import selectors from '../../redux/auth/register-selections';
 import operations from '../../redux/auth/register-operations';
 import { ImExit } from "react-icons/im";
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import defaultAvatar from './avatar-2.png'
 import Button from '@material-ui/core/Button';
 
-
-// console.log(selectors.getIsAuthenticated);
 
 function NavRegisterLogin () {
     return (
@@ -29,7 +27,14 @@ function NavRegisterLogin () {
     )
 }
 
-function UserMenu ({avatar, email, onLogOut }) {
+function UserMenu () {
+    const dispatch = useDispatch();
+    const avatar = defaultAvatar;
+    const email = useSelector(selectors.getEmailUser);
+    const onLogOut= useCallback(()=>{
+            dispatch(operations.logout()) 
+        },[dispatch])
+
     return (
         <div className={styles.NavRegisterLogin}>
             <img src={avatar} alt="avatar" width="34"/>
@@ -39,24 +44,24 @@ function UserMenu ({avatar, email, onLogOut }) {
     )
 } 
 
-function AppBar({IsAuthenticated, email, avatar, onLogOut }) {
+function AppBar() {
+    const IsAuthenticated = useSelector(selectors.getIsAuthenticated)
     return (
         <header className={styles.header}>
-            {IsAuthenticated ? <UserMenu email={email} avatar={avatar} onLogOut={onLogOut}/>: <NavRegisterLogin/>}
-            {/* <LinkElement link={routes.phoneBook}  styleName='contacts'/> */}
+            {IsAuthenticated ? <UserMenu/>: <NavRegisterLogin/>}
         </header>
     )
 }
 
-const mapStateToProps = state => ({
-    IsAuthenticated: selectors.getIsAuthenticated(state),
-    email: selectors.getEmailUser(state),
-    avatar: defaultAvatar,
-});
+// const mapStateToProps = state => ({
+//     IsAuthenticated: selectors.getIsAuthenticated(state),
+//     email: selectors.getEmailUser(state),
+//     avatar: defaultAvatar,
+// });
 
-const mapDispatchToProps = {
-    onLogOut: operations.logout
-}
+// const mapDispatchToProps = {
+//     onLogOut: operations.logout
+// }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppBar)
+export default AppBar;

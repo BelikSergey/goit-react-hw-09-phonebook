@@ -1,11 +1,7 @@
-import { Component } from "react";
-import {connect}  from 'react-redux';
+import { useEffect } from "react";
+import {useDispatch, useSelector}  from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { CSSTransition } from 'react-transition-group';
-// import { toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
-// import Loader from 'react-loader-spinner';
-// import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import styles from '../App.module.css';
 import ContactsList from "../components/ContactsList";
 import ContactForm from "../components/ContactForm";
@@ -22,31 +18,21 @@ import AppBar from '../components/AppBar'
 
 
 
-class PhoneBookPage extends Component {
+export default function  PhoneBookPage() {
+  const dispatch = useDispatch();
+  const contacts = useSelector(actionsSelectors.AllContacts)
 
- componentDidMount(){
-   this.props.getItemsList();
- }  
+  useEffect(()=>{
+    dispatch(actionsOperations.getItemsList())
+  },[dispatch]);
 
-
-  render() {
-    const {contacts} = this.props;
     return (
       <>
-       {/* {error && toast.error(error, {
-        autoClose: 2500,
-        hideProgressBar: true,
-        pauseOnHover: false,
-        position: "top-right",
-        })
-       
-       } */}
-        
           <>
            <AppBar/>
             <Container>
                 <LogoPhoneBook text="PhoneBook"/>
-                <ContactForm/>
+                <ContactForm contacts={contacts} />
             </Container>
             <Container>
                 <CSSTransition in={contacts.length > 1} 
@@ -54,7 +40,6 @@ class PhoneBookPage extends Component {
                   classNames={styles}
                    unmountOnExit>
                    <div className={styles.SearchForm}>
-                   {/* <p>Find contacts by name</p> */}
                    <Filter/>
                   </div>
                 </CSSTransition>
@@ -65,14 +50,14 @@ class PhoneBookPage extends Component {
       </>
     );
   }
-}
 
-const mapStateToProps = (state) => ({
-  contacts: actionsSelectors.AllContacts(state),
-  // loading: actionsSelectors.isLoading(state)
-})
-const mapDispatchToProps = dispatch => ({
-  getItemsList: ()=> dispatch(actionsOperations.getItemsList())
-})
 
-export default connect(mapStateToProps,mapDispatchToProps)(PhoneBookPage);
+// const mapStateToProps = (state) => ({
+//   contacts: actionsSelectors.AllContacts(state),
+//   // loading: actionsSelectors.isLoading(state)
+// })
+// const mapDispatchToProps = dispatch => ({
+//   getItemsList: ()=> dispatch(actionsOperations.getItemsList())
+// })
+
+// export default connect(mapStateToProps,mapDispatchToProps)(PhoneBookPage);

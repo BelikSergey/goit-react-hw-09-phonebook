@@ -1,7 +1,6 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
-function LogOut() {
+function LogOut(OutFromAuth) {
     return (
         <div>
             <button type="button" onClick={OutFromAuth} ></button>

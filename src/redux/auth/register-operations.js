@@ -98,10 +98,6 @@ const getCurrentUser = () => async (dispatch, getState) => {
         position: "top-right",
     })
  }
-
-
-
-
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
