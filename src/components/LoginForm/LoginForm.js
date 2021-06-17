@@ -1,44 +1,52 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import styles from '../ContactForm/ContactForm.module.css'
-import registerOperations from '../../redux/auth/register-operations'
+import styles from '../ContactForm/ContactForm.module.css';
+import registerOperations from '../../redux/auth/register-operations';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-
 
 export default function LoginForm() {
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState('');
 
-  const handleInputChangeEmail = useCallback((e) => {
+  const handleInputChangeEmail = useCallback(e => {
     const { value } = e.currentTarget;
-    setEmail(value)
-  },[]);
+    setEmail(value);
+  }, []);
 
   const [password, setPassword] = useState('');
 
-  const handleInputChangePassword = useCallback((e) => {
+  const handleInputChangePassword = useCallback(e => {
     const { value } = e.currentTarget;
-    setPassword(value)
-  },[]);
+    setPassword(value);
+  }, []);
 
-  const handleSubmitForm = useCallback((e) => {
-    e.preventDefault();
+  const handleSubmitForm = useCallback(
+    e => {
+      e.preventDefault();
 
-    if(email!=='' && password !== '' ){
-       dispatch(registerOperations.login({email, password}))
-    } else {
-        toast.error('Empty fields!!! Please fill oll the fields', {
+      if (email !== '' && password !== '') {
+        dispatch(
+          registerOperations.login({ email, password }),
+        );
+      } else {
+        toast.error(
+          'Empty fields!!! Please fill oll the fields',
+          {
             autoClose: 2000,
             hideProgressBar: true,
             pauseOnHover: false,
-            position: "top-right",
-    })}
-    reset();
-  },[dispatch,email,password]);
+            position: 'top-right',
+          },
+        );
+      }
+      reset();
+    },
+    [dispatch, email, password],
+  );
   const reset = () => {
     setEmail('');
     setPassword('');
@@ -46,32 +54,40 @@ export default function LoginForm() {
 
   return (
     <div>
-        <form className={styles.form} onSubmit={handleSubmitForm}>
-          <TextField 
-              label="email" 
-              className={styles.FormInput}
-              type="email"
-              name="email"
-              value={email}
-              onChange={handleInputChangeEmail}
+      <form
+        className={styles.form}
+        onSubmit={handleSubmitForm}
+      >
+        <TextField
+          label="email"
+          className={styles.FormInput}
+          type="email"
+          name="email"
+          value={email}
+          onChange={handleInputChangeEmail}
         />
-          <TextField className={styles.FormInput}
-            margin="normal"
-            label="password" 
-            type="password"
-            name="password"
-            value={password}
-            onChange={handleInputChangePassword}
+        <TextField
+          className={styles.FormInput}
+          margin="normal"
+          label="password"
+          type="password"
+          name="password"
+          value={password}
+          onChange={handleInputChangePassword}
         />
-                   
-        <Button color='primary' variant='contained' className={styles.buttonForm} type="submit">
+
+        <Button
+          color="primary"
+          variant="contained"
+          className={styles.buttonForm}
+          type="submit"
+        >
           Login
         </Button>
       </form>
-   </div>
-  )
+    </div>
+  );
 }
-
 
 // буз хуков
 
@@ -107,14 +123,13 @@ export default function LoginForm() {
 //         });
 //       };
 
-
 //     render() {
 //         const { email, password} = this.state;
 //         return (
 //             <div>
 //                 <form className={styles.form} onSubmit={this.handleSubmitForm}>
-//                     <TextField 
-//                       label="email" 
+//                     <TextField
+//                       label="email"
 //                       className={styles.FormInput}
 //                       type="email"
 //                       name="email"
@@ -123,13 +138,13 @@ export default function LoginForm() {
 //                     />
 //                     <TextField className={styles.FormInput}
 //                       margin="normal"
-//                       label="password" 
+//                       label="password"
 //                       type="password"
 //                       name="password"
 //                       value={password}
 //                       onChange={this.handleInputChange}
 //                     />
-                   
+
 //                     <Button color='primary' variant='contained' className={styles.buttonForm} type="submit">
 //                       Login
 //                     </Button>
@@ -141,6 +156,6 @@ export default function LoginForm() {
 
 // const mapDispatchToProps = {
 //   onLogin: registerOperations.login,
-// } 
+// }
 
 // export default connect(null, mapDispatchToProps)(LoginForm)
